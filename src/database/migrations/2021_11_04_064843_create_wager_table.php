@@ -34,6 +34,6 @@ class CreateWagerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wager');
+        Schema::dropIfExists('wagers');
     }
 }

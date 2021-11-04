@@ -6,18 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Wager
+ * Class BuyWager
  *
  * @property int $id
- * @property int $total_wager_value
- * @property int $odds
- * @property int $selling_percentage
- * @property float $selling_price
- * @property float $current_selling_price
- * @property int $percentage_sold
- * @property int $amount_sold
- * @property \Illuminate\Support\Carbon|null $placed_at
+ * @property int $wager_id
+ * @property int $buying_price
+ * @property \Illuminate\Support\Carbon|null $bought_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Wager|null $wager
  * @method static \Illuminate\Database\Eloquent\Builder|BaseModel filter(array $filters)
  * @method static \Illuminate\Database\Eloquent\Builder|Wager newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Wager newQuery()
@@ -33,14 +29,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Wager whereValue($value)
  * @mixin \Eloquent
  */
-class Wager extends BaseModel
+class BuyWager extends BaseModel
 {
     use HasFactory;
 
     protected $fillable = [
-        'total_wager_value', 'odds', 'selling_percentage', 'selling_price',
-        'current_selling_price', 'percentage_sold', 'amount_sold',
+        'wager_id', 'buying_price',
     ];
-    protected $table = 'wagers';
-    const CREATED_AT = 'placed_at';
+    protected $table = 'buy_wager';
+    const CREATED_AT = 'bought_at';
 }
