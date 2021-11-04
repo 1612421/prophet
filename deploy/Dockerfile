@@ -2,7 +2,7 @@
 FROM php:7.4-fpm-alpine
 
 # Copy composer.lock and composer.json
-COPY prophet/composer.lock prophet/composer.json /var/www/html/
+COPY src/composer.lock src/composer.json /var/www/html/
 
 # Set working directory
 WORKDIR /var/www/html

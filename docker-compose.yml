@@ -2,16 +2,19 @@ version: '3'
 
 #Docker Networks
 networks:
-  lan:
+  privateLan:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.10.0.0/24
 
 services:
   #Laravel App
   app:
+    env_file: ./src/.env
     build:
       context: .
       dockerfile: deploy/Dockerfile
-    image: prophet
     container_name: app
     restart: unless-stopped
     tty: true
@@ -20,9 +23,10 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www/html
     volumes:
-      - ./prophet:/var/www/html:cached
+      - ./src:/var/www/html:cached
     networks:
-      - lan
+      privateLan:
+        ipv4_address: 172.10.0.2
 
   #Nginx Service
   nginx:
@@ -33,11 +37,12 @@ services:
     ports:
       - "9053:80"
     volumes:
-      - ./prophet:/var/www/html:cached
+      - ./src:/var/www/html:cached
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     networks:
-      - lan
+      privateLan:
+        ipv4_address: 172.10.0.3
 
   #MySQL Service
   db:
@@ -48,11 +53,12 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_DATABASE: "prophet"
+      MYSQL_DATABASE: "app_db"
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "123456"
       MYSQL_ROOT_PASSWORD: "SuperSecret"
     volumes:
       - ./dbdata:/var/lib/mysql/
     networks:
-      - lan
+      privateLan:
+        ipv4_address: 172.10.0.5
