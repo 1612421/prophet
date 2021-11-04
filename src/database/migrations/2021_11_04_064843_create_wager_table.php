@@ -20,8 +20,8 @@ class CreateWagerTable extends Migration
             $table->unsignedTinyInteger('selling_percentage');
             $table->unsignedDouble('selling_price', 16, 2);
             $table->unsignedDouble('current_selling_price', 16, 2);
-            $table->unsignedTinyInteger('percentage_sold')->nullable();
-            $table->unsignedInteger('amount_sold')->nullable();
+            $table->unsignedDouble('percentage_sold')->nullable();
+            $table->unsignedDouble('amount_sold')->nullable();
             $table->timestamp('placed_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });

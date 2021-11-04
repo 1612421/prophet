@@ -26,9 +26,18 @@ class BuyWagerController extends Controller
             'buying_price' => 'required|numeric|gt:0',
         ]);
 
-        if ($validated['buying_price'] > $wager->current_selling_price) {
+        $buying_price = $validated['buying_price'];
+
+        if ($buying_price > $wager->current_selling_price) {
             throw new HttpException(422, 'The buying price must be lesser or equal to current selling price of the wager');
         }
+
+        $amount_sold = $wager->amount_sold ? $wager->amount_sold + $buying_price : $buying_price;
+        $wager->update([
+            'current_selling_price' => $wager->current_selling_price - $buying_price,
+            'amount_sold' => $amount_sold,
+            'percentage_sold' => $amount_sold / $wager->total_wager_value * 100,
+        ]);
 
         $validated['wager_id'] = $wager->id;
         $buy_wager = BuyWager::query()->create($validated);
